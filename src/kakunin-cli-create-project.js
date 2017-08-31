@@ -7,18 +7,23 @@ const fs = require('fs-extra');
 const json = require('./template/package.json');
 
 let directory;
+let ver;
 
 program
-  .arguments('<dir>')
-  .action(function(dir) {
+  .arguments('<dir> [version]')
+  .action(function(dir, version) {
     directory = dir;
+    ver = version;
   })
   .parse(process.argv);
-
 
 if (typeof directory === 'undefined') {
   console.error('You must specify directory as the third parameter.');
   process.exit(1);
+}
+
+if (typeof ver !== 'undefined') {
+  json.dependencies.kakunin = ver;
 }
 
 const kakuninConfigPath = path.resolve(directory);
